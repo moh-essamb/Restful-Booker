@@ -1,0 +1,1503 @@
+{
+	"info": {
+		"_postman_id": "1d9c4fb6-0863-4f17-a63f-d8157c32bb5a",
+		"name": "Restful Booker",
+		"description": "## API documentation for the playground API restful-booker\n\n## Base URL\n\n``` javascript\nhttps://restful-booker.herokuapp.com\n\n ```\n\n## 📌 Features\n\n- ✅ Authentication (Token-based)\n    \n- ✅ Create Booking\n    \n- ✅ Get Booking by ID\n    \n- ✅ Update Booking\n    \n- ✅ Delete Booking",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32285312",
+		"_collection_link": "https://www.postman.com/dgdgdghhh/workspace/xyz/collection/32285312-1d9c4fb6-0863-4f17-a63f-d8157c32bb5a?action=share&source=collection_link&creator=32285312"
+	},
+	"item": [
+		{
+			"name": "🔐 Authentication",
+			"item": [
+				{
+					"name": "Create Token",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.collectionVariables.set(\"userName\", \"admin\");\r",
+									"pm.collectionVariables.set(\"password\", \"password123\");"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// Extract token\r",
+									"var token = pm.response.json().token;\r",
+									"\r",
+									"// Save to collection variable\r",
+									"pm.collectionVariables.set(\"token\", token);\r",
+									"\r",
+									"// Test: Status code matches the expected code from CSV\r",
+									"pm.test(`Status code is 200`, function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"// Test: Token is not empty\r",
+									"pm.test(\"Token is a non-empty string\", function () {\r",
+									"    pm.expect(token).to.be.a('string').and.to.have.lengthOf.above(0);\r",
+									"});\r",
+									"\r",
+									"// Test: Token is not null\r",
+									"pm.test(\"Token is not null\", function () {\r",
+									"    pm.expect(token).to.not.be.null;\r",
+									"});\r",
+									"\r",
+									"// Test: Token is not undefined\r",
+									"pm.test(\"Token is not undefined\", function () {\r",
+									"    pm.expect(token).to.not.be.undefined;\r",
+									"});\r",
+									"\r",
+									"\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"{{userName}}\",\r\n    \"password\" : \"{{password}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/auth",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"auth"
+							]
+						},
+						"description": "### Auth Request\n\n**Description:**  \n  \nAuthenticates a user using a valid `username` and `password`, and returns a token. This token must be included in headers (as `Cookie` or `Authorization`) for performing update or delete operations.\n\n## Header\n\n| Field | Type | Description |\n| --- | --- | --- |\n| Content-Type | string | Sets the format of payload you are sending  <br>  <br>Default value: `application/json` |\n\n## Request body\n\n| Field | Type | Description |\n| --- | --- | --- |\n| username | String | Username for authentication  <br>  <br>Default value: `admin` |\n| password | String | Password for authentication  <br>  <br>Default value: `password123` |\n\n## Success 200\n\n| Field | Type | Description |\n| --- | --- | --- |\n| token | String | Token to use in future requests |"
+					},
+					"response": [
+						{
+							"name": "Create Token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/auth",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745436465&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=qP%2B0U%2BvqOSlYrvN%2BDcU1eCq5afmUaavLk%2Bp%2BP%2FXHH2I%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745436465&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=qP%2B0U%2BvqOSlYrvN%2BDcU1eCq5afmUaavLk%2Bp%2BP%2FXHH2I%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1b-iSyU3+Y67fuwBgsvoLvyuUBaipA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 23 Apr 2025 19:27:45 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"04d2cd84132dd5d\"\n}"
+						},
+						{
+							"name": "Create Token",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password123\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{URL}}/auth",
+									"host": [
+										"{{URL}}"
+									],
+									"path": [
+										"auth"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745436465&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=qP%2B0U%2BvqOSlYrvN%2BDcU1eCq5afmUaavLk%2Bp%2BP%2FXHH2I%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745436465&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=qP%2B0U%2BvqOSlYrvN%2BDcU1eCq5afmUaavLk%2Bp%2BP%2FXHH2I%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "27"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"1b-iSyU3+Y67fuwBgsvoLvyuUBaipA\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 23 Apr 2025 19:27:45 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"token\": \"04d2cd84132dd5d\"\n}"
+						}
+					]
+				}
+			],
+			"description": "> _**This folder include authentication API requests**_"
+		},
+		{
+			"name": "📝 Booking",
+			"item": [
+				{
+					"name": "Create Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 🛑 Store booking ID\r",
+									"var booking_id = pm.response.json().bookingid;\r",
+									"pm.collectionVariables.set(\"booking_id\", booking_id);\r",
+									"\r",
+									"// ✅ Store response data in variables\r",
+									"let booking = pm.response.json().booking;\r",
+									"\r",
+									"// 🧾 Extract each field for easier access\r",
+									"let firstName = booking.firstname;\r",
+									"let lastName = booking.lastname;\r",
+									"let totalPrice = booking.totalprice;\r",
+									"let depositPaid = booking.depositpaid;\r",
+									"let checkIn = booking.bookingdates.checkin;\r",
+									"let checkOut = booking.bookingdates.checkout;\r",
+									"let additionalNeeds = booking.additionalneeds;\r",
+									"\r",
+									"// ✅ Retrieve expected values from collection variables\r",
+									"let expectedFirstName = pm.collectionVariables.get(\"firstName\");\r",
+									"let expectedLastName = pm.collectionVariables.get(\"lastName\");\r",
+									"let expectedTotalPrice = parseInt(pm.collectionVariables.get(\"totalPrice\"));\r",
+									"let expectedDepositPaid = pm.collectionVariables.get(\"depositPaid\") === 'true'; // string to boolean\r",
+									"let expectedCheckIn = pm.collectionVariables.get(\"checkIn\");\r",
+									"let expectedCheckOut = pm.collectionVariables.get(\"checkOut\");\r",
+									"let expectedAdditionalNeeds = pm.collectionVariables.get(\"additionalNeeds\");\r",
+									"\r",
+									"// 🧪 Tests\r",
+									"\r",
+									"// 🧪 Firstname Tests\r",
+									"pm.test(\"Firstname is not null\", () => pm.expect(firstName).to.not.be.null);\r",
+									"pm.test(\"Firstname is not undefined\", () => pm.expect(firstName).to.not.be.undefined);\r",
+									"pm.test(\"Firstname is of type string\", () => pm.expect(firstName).to.be.a('string'));\r",
+									"pm.test(\"Firstname matches generated value\", () => pm.expect(firstName).to.eql(expectedFirstName));\r",
+									"\r",
+									"// 🧪 Lastname Tests\r",
+									"pm.test(\"Lastname is not null\", () => pm.expect(lastName).to.not.be.null);\r",
+									"pm.test(\"Lastname is not undefined\", () => pm.expect(lastName).to.not.be.undefined);\r",
+									"pm.test(\"Lastname is of type string\", () => pm.expect(lastName).to.be.a('string'));\r",
+									"pm.test(\"Lastname matches generated value\", () => pm.expect(lastName).to.eql(expectedLastName));\r",
+									"\r",
+									"// 🧪 Total Price Tests\r",
+									"pm.test(\"Total price is not null\", () => pm.expect(totalPrice).to.not.be.null);\r",
+									"pm.test(\"Total price is not undefined\", () => pm.expect(totalPrice).to.not.be.undefined);\r",
+									"pm.test(\"Total price is of type number\", () => pm.expect(totalPrice).to.be.a('number'));\r",
+									"pm.test(\"Total price matches generated value\", () => pm.expect(totalPrice).to.eql(expectedTotalPrice));\r",
+									"\r",
+									"// 🧪 Deposit Paid Tests\r",
+									"pm.test(\"Deposit paid is not null\", () => pm.expect(depositPaid).to.not.be.null);\r",
+									"pm.test(\"Deposit paid is not undefined\", () => pm.expect(depositPaid).to.not.be.undefined);\r",
+									"pm.test(\"Deposit paid is of type boolean\", () => pm.expect(depositPaid).to.be.a('boolean'));\r",
+									"pm.test(\"Deposit paid matches generated value\", () => pm.expect(depositPaid).to.eql(expectedDepositPaid));\r",
+									"\r",
+									"// 🧪 Check-in Date Tests\r",
+									"pm.test(\"Check-in date is not null\", () => pm.expect(checkIn).to.not.be.null);\r",
+									"pm.test(\"Check-in date is not undefined\", () => pm.expect(checkIn).to.not.be.undefined);\r",
+									"pm.test(\"Check-in date is of type string\", () => pm.expect(checkIn).to.be.a('string'));\r",
+									"pm.test(\"Check-in date matches generated value\", () => pm.expect(checkIn).to.eql(expectedCheckIn));\r",
+									"\r",
+									"// 🧪 Check-out Date Tests\r",
+									"pm.test(\"Check-out date is not null\", () => pm.expect(checkOut).to.not.be.null);\r",
+									"pm.test(\"Check-out date is not undefined\", () => pm.expect(checkOut).to.not.be.undefined);\r",
+									"pm.test(\"Check-out date is of type string\", () => pm.expect(checkOut).to.be.a('string'));\r",
+									"pm.test(\"Check-out date matches generated value\", () => pm.expect(checkOut).to.eql(expectedCheckOut));\r",
+									"pm.test(\"Check-out date is after Check-in date\", () => {\r",
+									"    pm.expect(new Date(checkOut)).to.be.greaterThan(new Date(checkIn));\r",
+									"});\r",
+									"\r",
+									"// 🧪 Additional Needs Tests\r",
+									"pm.test(\"Additional needs is not null\", () => pm.expect(additionalNeeds).to.not.be.null);\r",
+									"pm.test(\"Additional needs is not undefined\", () => pm.expect(additionalNeeds).to.not.be.undefined);\r",
+									"pm.test(\"Additional needs is of type string\", () => pm.expect(additionalNeeds).to.be.a('string'));\r",
+									"pm.test(\"Additional needs matches generated value\", () => pm.expect(additionalNeeds).to.eql(expectedAdditionalNeeds));\r",
+									"\r",
+									"// 🧪 General Response Tests\r",
+									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+									"pm.test(\"Response time is less than 200ms\", () => pm.expect(pm.response.responseTime).to.be.below(200));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// 🔹 Generate and set a random first name\r",
+									"let firstName = pm.variables.replaceIn('{{$randomFirstName}}');\r",
+									"pm.collectionVariables.set('firstName', firstName);\r",
+									"\r",
+									"// 🔹 Generate and set a random last name\r",
+									"let lastName = pm.variables.replaceIn('{{$randomLastName}}');\r",
+									"pm.collectionVariables.set('lastName', lastName);\r",
+									"\r",
+									"// 🔹 Generate and set a random total price (integer)\r",
+									"let totalPrice = pm.variables.replaceIn('{{$randomInt}}');\r",
+									"pm.collectionVariables.set('totalPrice', totalPrice);\r",
+									"\r",
+									"// 🔹 Generate and set a random boolean value for depositPaid\r",
+									"let depositPaid = pm.variables.replaceIn('{{$randomBoolean}}');\r",
+									"pm.collectionVariables.set('depositPaid', depositPaid);\r",
+									"\r",
+									"// 🔹 Function to generate a future date (formatted as YYYY-MM-DD)\r",
+									"function getRandomFutureDate(baseDate, minOffset, maxOffset) {\r",
+									"    const date = new Date(baseDate);\r",
+									"    const offset = Math.floor(Math.random() * (maxOffset - minOffset + 1)) + minOffset;\r",
+									"    date.setDate(date.getDate() + offset);\r",
+									"    return date.toISOString().split('T')[0]; // Extract date only\r",
+									"}\r",
+									"\r",
+									"// 🔹 Generate and set check-in date (0–60 days from today)\r",
+									"const checkIn = getRandomFutureDate(new Date(), 0, 60);\r",
+									"pm.collectionVariables.set('checkIn', checkIn);\r",
+									"\r",
+									"// 🔹 Generate and set check-out date (1–10 days after check-in)\r",
+									"const checkOut = getRandomFutureDate(new Date(checkIn), 1, 10);\r",
+									"pm.collectionVariables.set('checkOut', checkOut);\r",
+									"\r",
+									"// 🔹 Define meal options and pick one randomly\r",
+									"const needs = [\"Breakfast\", \"Lunch\", \"Dinner\"];\r",
+									"const additionalNeeds = needs[Math.floor(Math.random() * needs.length)];\r",
+									"pm.collectionVariables.set(\"additionalNeeds\", additionalNeeds);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"{{firstName}}\",\r\n    \"lastname\": \"{{lastName}}\",\r\n    \"totalprice\": {{totalPrice}},\r\n    \"depositpaid\": {{depositPaid}},\r\n    \"bookingdates\": {\r\n        \"checkin\": \"{{checkIn}}\",\r\n        \"checkout\": \"{{checkOut}}\"\r\n    },\r\n    \"additionalneeds\": \"{{additionalNeeds}}\"\r\n\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/booking",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"booking"
+							]
+						},
+						"description": "**Description:**  \n  \nCreates a new booking with provided guest details, including check-in and check-out dates, total price, deposit status, and any additional needs.\n\n## Header\n\n| Field | Type | Description |\n| --- | --- | --- |\n| Content-Type | string | Sets the format of payload you are sending. Can be application/json or text/xml  <br>  <br>Default value: `application/json` |\n| Accept | string | Sets what format the response body is returned in. Can be application/json or application/xml  <br>  <br>Default value: `application/json` |\n\n## Request body\n\n| Field | Type | Description |\n| --- | --- | --- |\n| firstname | String | Firstname for the guest who made the booking |\n| lastname | String | Lastname for the guest who made the booking |\n| totalprice | Number | The total price for the booking |\n| depositpaid | Boolean | Whether the deposit has been paid or not |\n| checkin | Date | Date the guest is checking in |\n| checkout | Date | Date the guest is checking out |\n| additionalneeds | String | Any other needs the guest has |\n\n## Success 200\n\n| Field | Type | Description |\n| --- | --- | --- |\n| bookingid | Number | ID for newly created booking |\n| booking | Object | Object that contains |\n| firstname | String | Firstname for the guest who made the booking |\n| lastname | String | Lastname for the guest who made the booking |\n| totalprice | Number | The total price for the booking |\n| depositpaid | Boolean | Whether the deposit has been paid or not |\n| bookingdates | Object | Sub-object that contains the checkin and checkout dates |\n| checkin | Date | Date the guest is checking in |\n| checkout | Date | Date the guest is checking out |\n| additionalneeds | String | Any other needs the guest has |"
+					},
+					"response": [
+						{
+							"name": "Create Booking",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n        \"firstname\": \"Lorenza\",\r\n        \"lastname\": \"Fahey\",\r\n        \"totalprice\": 581,\r\n        \"depositpaid\": false,\r\n        \"bookingdates\": {\r\n            \"checkin\": \"2025-04-24\",\r\n            \"checkout\": \"2025-04-28\"\r\n        },\r\n        \"additionalneeds\": \"Dinner\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/booking",
+									"path": [
+										"booking"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745523389&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=K87YfaawVRJdpAeJVPM%2BDaXG2KDIw89a%2BrznUYws9ec%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745523389&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=K87YfaawVRJdpAeJVPM%2BDaXG2KDIw89a%2BrznUYws9ec%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "199"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"c7-pbPYcxvU1lq09QLZ0taOgvyBdTU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 24 Apr 2025 19:36:29 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"bookingid\": 2757,\n    \"booking\": {\n        \"firstname\": \"Lorenza\",\n        \"lastname\": \"Fahey\",\n        \"totalprice\": 581,\n        \"depositpaid\": false,\n        \"bookingdates\": {\n            \"checkin\": \"2025-04-24\",\n            \"checkout\": \"2025-04-28\"\n        },\n        \"additionalneeds\": \"Dinner\"\n    }\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Booking by Id",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Store response data in variables\r",
+									"let booking = pm.response.json();\r",
+									"\r",
+									"// 🧾 Extract each field for easier access\r",
+									"let firstName = booking.firstname;\r",
+									"let lastName = booking.lastname;\r",
+									"let totalPrice = booking.totalprice;\r",
+									"let depositPaid = booking.depositpaid;\r",
+									"let checkIn = booking.bookingdates.checkin;\r",
+									"let checkOut = booking.bookingdates.checkout;\r",
+									"let additionalNeeds = booking.additionalneeds;\r",
+									"\r",
+									"// ✅ Retrieve expected values from collection variables\r",
+									"let expectedFirstName = pm.collectionVariables.get(\"firstName\");\r",
+									"let expectedLastName = pm.collectionVariables.get(\"lastName\");\r",
+									"let expectedTotalPrice = parseInt(pm.collectionVariables.get(\"totalPrice\"));\r",
+									"let expectedDepositPaid = pm.collectionVariables.get(\"depositPaid\") === 'true'; // string to boolean\r",
+									"let expectedCheckIn = pm.collectionVariables.get(\"checkIn\");\r",
+									"let expectedCheckOut = pm.collectionVariables.get(\"checkOut\");\r",
+									"let expectedAdditionalNeeds = pm.collectionVariables.get(\"additionalNeeds\");\r",
+									"\r",
+									"// 🧪 Tests\r",
+									"\r",
+									"// 🧪 Firstname Tests\r",
+									"pm.test(\"Firstname is not null\", () => pm.expect(firstName).to.not.be.null);\r",
+									"pm.test(\"Firstname is not undefined\", () => pm.expect(firstName).to.not.be.undefined);\r",
+									"pm.test(\"Firstname is of type string\", () => pm.expect(firstName).to.be.a('string'));\r",
+									"pm.test(\"Firstname matches generated value\", () => pm.expect(firstName).to.eql(expectedFirstName));\r",
+									"\r",
+									"// 🧪 Lastname Tests\r",
+									"pm.test(\"Lastname is not null\", () => pm.expect(lastName).to.not.be.null);\r",
+									"pm.test(\"Lastname is not undefined\", () => pm.expect(lastName).to.not.be.undefined);\r",
+									"pm.test(\"Lastname is of type string\", () => pm.expect(lastName).to.be.a('string'));\r",
+									"pm.test(\"Lastname matches generated value\", () => pm.expect(lastName).to.eql(expectedLastName));\r",
+									"\r",
+									"// 🧪 Total Price Tests\r",
+									"pm.test(\"Total price is not null\", () => pm.expect(totalPrice).to.not.be.null);\r",
+									"pm.test(\"Total price is not undefined\", () => pm.expect(totalPrice).to.not.be.undefined);\r",
+									"pm.test(\"Total price is of type number\", () => pm.expect(totalPrice).to.be.a('number'));\r",
+									"pm.test(\"Total price matches generated value\", () => pm.expect(totalPrice).to.eql(expectedTotalPrice));\r",
+									"\r",
+									"// 🧪 Deposit Paid Tests\r",
+									"pm.test(\"Deposit paid is not null\", () => pm.expect(depositPaid).to.not.be.null);\r",
+									"pm.test(\"Deposit paid is not undefined\", () => pm.expect(depositPaid).to.not.be.undefined);\r",
+									"pm.test(\"Deposit paid is of type boolean\", () => pm.expect(depositPaid).to.be.a('boolean'));\r",
+									"pm.test(\"Deposit paid matches generated value\", () => pm.expect(depositPaid).to.eql(expectedDepositPaid));\r",
+									"\r",
+									"// 🧪 Check-in Date Tests\r",
+									"pm.test(\"Check-in date is not null\", () => pm.expect(checkIn).to.not.be.null);\r",
+									"pm.test(\"Check-in date is not undefined\", () => pm.expect(checkIn).to.not.be.undefined);\r",
+									"pm.test(\"Check-in date is of type string\", () => pm.expect(checkIn).to.be.a('string'));\r",
+									"pm.test(\"Check-in date matches generated value\", () => pm.expect(checkIn).to.eql(expectedCheckIn));\r",
+									"\r",
+									"// 🧪 Check-out Date Tests\r",
+									"pm.test(\"Check-out date is not null\", () => pm.expect(checkOut).to.not.be.null);\r",
+									"pm.test(\"Check-out date is not undefined\", () => pm.expect(checkOut).to.not.be.undefined);\r",
+									"pm.test(\"Check-out date is of type string\", () => pm.expect(checkOut).to.be.a('string'));\r",
+									"pm.test(\"Check-out date matches generated value\", () => pm.expect(checkOut).to.eql(expectedCheckOut));\r",
+									"pm.test(\"Check-out date is after Check-in date\", () => {\r",
+									"    pm.expect(new Date(checkOut)).to.be.greaterThan(new Date(checkIn));\r",
+									"});\r",
+									"\r",
+									"// 🧪 Additional Needs Tests\r",
+									"pm.test(\"Additional needs is not null\", () => pm.expect(additionalNeeds).to.not.be.null);\r",
+									"pm.test(\"Additional needs is not undefined\", () => pm.expect(additionalNeeds).to.not.be.undefined);\r",
+									"pm.test(\"Additional needs is of type string\", () => pm.expect(additionalNeeds).to.be.a('string'));\r",
+									"pm.test(\"Additional needs matches generated value\", () => pm.expect(additionalNeeds).to.eql(expectedAdditionalNeeds));\r",
+									"\r",
+									"// 🧪 General Response Tests\r",
+									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+									"pm.test(\"Response time is less than 200ms\", () => pm.expect(pm.response.responseTime).to.be.below(200));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/booking/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"booking",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{booking_id}}"
+								}
+							]
+						},
+						"description": "**Description:**  \n  \nRetrieves the details of a specific booking using its unique booking ID. Returns the guest’s name, dates, total price, deposit status, and any additional needs.\n\n## Header\n\n| Field | Type | Description |\n| --- | --- | --- |\n| Accept | string | Sets what format the response body is returned in. Can be application/json or application/xml  <br>  <br>Default value: `application/json` |\n\n## Url Parameter\n\n| Field | Type | Description |\n| --- | --- | --- |\n| id | String | The id of the booking you would like to retrieve |\n\n## Success 200\n\n| Field | Type | Description |\n| --- | --- | --- |\n| firstname | String | Firstname for the guest who made the booking |\n| lastname | String | Lastname for the guest who made the booking |\n| totalprice | Number | The total price for the booking |\n| depositpaid | Boolean | Whether the deposit has been paid or not |\n| bookingdates | Object | Sub-object that contains the checkin and checkout dates |\n| checkin | Date | Date the guest is checking in |\n| checkout | Date | Date the guest is checking out |\n| additionalneeds | String | Any other needs the guest has |"
+					},
+					"response": [
+						{
+							"name": "Get Booking by Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/booking/:id",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"booking",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2940"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745523263&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=BhjiN8QcvGfgPsiGCoJ%2FcGhTzYrZoJ1bP0jPSFtxdl8%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745523263&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=BhjiN8QcvGfgPsiGCoJ%2FcGhTzYrZoJ1bP0jPSFtxdl8%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "166"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"a6-b5OpbnCPC0l1nxVVb62RsFl2LT8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 24 Apr 2025 19:34:23 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"firstname\": \"Tamia\",\n    \"lastname\": \"Sipes\",\n    \"totalprice\": 947,\n    \"depositpaid\": true,\n    \"bookingdates\": {\n        \"checkin\": \"2025-04-25\",\n        \"checkout\": \"2025-05-02\"\n    },\n    \"additionalneeds\": \"Lunch\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Store response data in variables\r",
+									"let booking = pm.response.json();\r",
+									"\r",
+									"// 🧾 Extract each field for easier access\r",
+									"let firstName = booking.firstname;\r",
+									"let lastName = booking.lastname;\r",
+									"let totalPrice = booking.totalprice;\r",
+									"let depositPaid = booking.depositpaid;\r",
+									"let checkIn = booking.bookingdates.checkin;\r",
+									"let checkOut = booking.bookingdates.checkout;\r",
+									"let additionalNeeds = booking.additionalneeds;\r",
+									"\r",
+									"// ✅ Retrieve expected values from collection variables (using Update suffix)\r",
+									"let expectedFirstName = pm.collectionVariables.get(\"firstNameUpdate\");\r",
+									"let expectedLastName = pm.collectionVariables.get(\"lastNameUpdate\");\r",
+									"let expectedTotalPrice = parseInt(pm.collectionVariables.get(\"totalPriceUpdate\"));\r",
+									"let expectedDepositPaid = pm.collectionVariables.get(\"depositPaidUpdate\") === 'true'; // Convert string to boolean\r",
+									"let expectedCheckIn = pm.collectionVariables.get(\"checkInUpdate\");\r",
+									"let expectedCheckOut = pm.collectionVariables.get(\"checkOutUpdate\");\r",
+									"let expectedAdditionalNeeds = pm.collectionVariables.get(\"additionalNeedsUpdate\");\r",
+									"\r",
+									"// 🧪 Firstname Tests\r",
+									"pm.test(\"Firstname is not null\", () => pm.expect(firstName).to.not.be.null);\r",
+									"pm.test(\"Firstname is not undefined\", () => pm.expect(firstName).to.not.be.undefined);\r",
+									"pm.test(\"Firstname is of type string\", () => pm.expect(firstName).to.be.a('string'));\r",
+									"pm.test(\"Firstname matches generated value\", () => pm.expect(firstName).to.eql(expectedFirstName));\r",
+									"\r",
+									"// 🧪 Lastname Tests\r",
+									"pm.test(\"Lastname is not null\", () => pm.expect(lastName).to.not.be.null);\r",
+									"pm.test(\"Lastname is not undefined\", () => pm.expect(lastName).to.not.be.undefined);\r",
+									"pm.test(\"Lastname is of type string\", () => pm.expect(lastName).to.be.a('string'));\r",
+									"pm.test(\"Lastname matches generated value\", () => pm.expect(lastName).to.eql(expectedLastName));\r",
+									"\r",
+									"// 🧪 Total Price Tests\r",
+									"pm.test(\"Total price is not null\", () => pm.expect(totalPrice).to.not.be.null);\r",
+									"pm.test(\"Total price is not undefined\", () => pm.expect(totalPrice).to.not.be.undefined);\r",
+									"pm.test(\"Total price is of type number\", () => pm.expect(totalPrice).to.be.a('number'));\r",
+									"pm.test(\"Total price matches generated value\", () => pm.expect(totalPrice).to.eql(expectedTotalPrice));\r",
+									"\r",
+									"// 🧪 Deposit Paid Tests\r",
+									"pm.test(\"Deposit paid is not null\", () => pm.expect(depositPaid).to.not.be.null);\r",
+									"pm.test(\"Deposit paid is not undefined\", () => pm.expect(depositPaid).to.not.be.undefined);\r",
+									"pm.test(\"Deposit paid is of type boolean\", () => pm.expect(depositPaid).to.be.a('boolean'));\r",
+									"pm.test(\"Deposit paid matches generated value\", () => pm.expect(depositPaid).to.eql(expectedDepositPaid));\r",
+									"\r",
+									"// 🧪 Check-in Date Tests\r",
+									"pm.test(\"Check-in date is not null\", () => pm.expect(checkIn).to.not.be.null);\r",
+									"pm.test(\"Check-in date is not undefined\", () => pm.expect(checkIn).to.not.be.undefined);\r",
+									"pm.test(\"Check-in date is of type string\", () => pm.expect(checkIn).to.be.a('string'));\r",
+									"pm.test(\"Check-in date matches generated value\", () => pm.expect(checkIn).to.eql(expectedCheckIn));\r",
+									"\r",
+									"// 🧪 Check-out Date Tests\r",
+									"pm.test(\"Check-out date is not null\", () => pm.expect(checkOut).to.not.be.null);\r",
+									"pm.test(\"Check-out date is not undefined\", () => pm.expect(checkOut).to.not.be.undefined);\r",
+									"pm.test(\"Check-out date is of type string\", () => pm.expect(checkOut).to.be.a('string'));\r",
+									"pm.test(\"Check-out date matches generated value\", () => pm.expect(checkOut).to.eql(expectedCheckOut));\r",
+									"pm.test(\"Check-out date is after Check-in date\", () => {\r",
+									"    pm.expect(new Date(checkOut)).to.be.greaterThan(new Date(checkIn));\r",
+									"});\r",
+									"\r",
+									"// 🧪 Additional Needs Tests\r",
+									"pm.test(\"Additional needs is not null\", () => pm.expect(additionalNeeds).to.not.be.null);\r",
+									"pm.test(\"Additional needs is not undefined\", () => pm.expect(additionalNeeds).to.not.be.undefined);\r",
+									"pm.test(\"Additional needs is of type string\", () => pm.expect(additionalNeeds).to.be.a('string'));\r",
+									"pm.test(\"Additional needs matches generated value\", () => pm.expect(additionalNeeds).to.eql(expectedAdditionalNeeds));\r",
+									"\r",
+									"// 🧪 General Response Tests\r",
+									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+									"pm.test(\"Response time is less than 200ms\", () => pm.expect(pm.response.responseTime).to.be.below(200));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"// 🔹 Generate and set a random first name\r",
+									"let firstNameUpdate = pm.variables.replaceIn('{{$randomFirstName}}');\r",
+									"pm.collectionVariables.set('firstNameUpdate', firstNameUpdate);\r",
+									"\r",
+									"// 🔹 Generate and set a random last name\r",
+									"let lastNameUpdate = pm.variables.replaceIn('{{$randomLastName}}');\r",
+									"pm.collectionVariables.set('lastNameUpdate', lastNameUpdate);\r",
+									"\r",
+									"// 🔹 Generate and set a random total price (integer)\r",
+									"let totalPriceUpdate = pm.variables.replaceIn('{{$randomInt}}');\r",
+									"pm.collectionVariables.set('totalPriceUpdate', totalPriceUpdate);\r",
+									"\r",
+									"// 🔹 Generate and set a random boolean value for depositPaid\r",
+									"let depositPaidUpdate = pm.variables.replaceIn('{{$randomBoolean}}');\r",
+									"pm.collectionVariables.set('depositPaidUpdate', depositPaidUpdate);\r",
+									"\r",
+									"// 🔹 Function to generate a future date (formatted as YYYY-MM-DD)\r",
+									"function getRandomFutureDate(baseDate, minOffset, maxOffset) {\r",
+									"    const date = new Date(baseDate);\r",
+									"    const offset = Math.floor(Math.random() * (maxOffset - minOffset + 1)) + minOffset;\r",
+									"    date.setDate(date.getDate() + offset);\r",
+									"    return date.toISOString().split('T')[0]; // Extract date only\r",
+									"}\r",
+									"\r",
+									"// 🔹 Generate and set check-in date (0–60 days from today)\r",
+									"let checkInUpdate = getRandomFutureDate(new Date(), 0, 60);\r",
+									"pm.collectionVariables.set('checkInUpdate', checkInUpdate);\r",
+									"\r",
+									"// 🔹 Generate and set check-out date (1–10 days after check-in)\r",
+									"let checkOutUpdate = getRandomFutureDate(new Date(checkInUpdate), 1, 10);\r",
+									"pm.collectionVariables.set('checkOutUpdate', checkOutUpdate);\r",
+									"\r",
+									"// 🔹 Define meal options and randomly select one\r",
+									"let additionalNeedsUpdate = [\"Breakfast\", \"Lunch\", \"Dinner\"][\r",
+									"    Math.floor(Math.random() * 3)\r",
+									"];\r",
+									"pm.collectionVariables.set(\"additionalNeedsUpdate\", additionalNeedsUpdate);\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{token}}",
+								"type": "text"
+							},
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\": \"{{firstNameUpdate}}\",\r\n    \"lastname\": \"{{lastNameUpdate}}\",\r\n    \"totalprice\": {{totalPriceUpdate}},\r\n    \"depositpaid\": {{depositPaidUpdate}},\r\n    \"bookingdates\": {\r\n        \"checkin\": \"{{checkInUpdate}}\",\r\n        \"checkout\": \"{{checkOutUpdate}}\"\r\n    },\r\n    \"additionalneeds\": \"{{additionalNeedsUpdate}}\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{URL}}/booking/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"booking",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{booking_id}}"
+								}
+							]
+						},
+						"description": "**Description:**  \n  \nUpdates an existing booking's information using its ID. Requires authentication. All booking details, including guest name, pricing, dates, and additional needs, can be modified.\n\n## Header\n\n| Field | Type | Description |\n| --- | --- | --- |\n| Content-Type | string | Sets the format of payload you are sending. Can be application/json or text/xml  <br>  <br>Default value: `application/json` |\n| Accept | string | Sets what format the response body is returned in. Can be application/json or application/xml  <br>  <br>Default value: `application/json` |\n| Cookieoptional | string | Sets an authorization token to access the PUT endpoint, can be used as an alternative to the Authorization  <br>  <br>Default value: `token=` |\n| Authorizationoptional | string | Basic authorization header to access the PUT endpoint, can be used as an alternative to the Cookie header  <br>  <br>Default value: `{{vault:basic-auth}}` |\n\n## Url Parameter\n\n| Field | Type | Description |\n| --- | --- | --- |\n| id | Number | ID for the booking you want to update |\n\n## Request body\n\n| Field | Type | Description |\n| --- | --- | --- |\n| firstname | String | Firstname for the guest who made the booking |\n| lastname | String | Lastname for the guest who made the booking |\n| totalprice | Number | The total price for the booking |\n| depositpaid | Boolean | Whether the deposit has been paid or not |\n| checkin | Date | Date the guest is checking in |\n| checkout | Date | Date the guest is checking out |\n| additionalneeds | String | Any other needs the guest has |\n\n## Success 200\n\n| Field | Type | Description |\n| --- | --- | --- |\n| firstname | String | Firstname for the guest who made the booking |\n| lastname | String | Lastname for the guest who made the booking |\n| totalprice | Number | The total price for the booking |\n| depositpaid | Boolean | Whether the deposit has been paid or not |\n| bookingdates | Object | Sub-object that contains the checkin and checkout dates |\n| checkin | Date | Date the guest is checking in |\n| checkout | Date | Date the guest is checking out |\n| additionalneeds | String | Any other needs the guest has |"
+					},
+					"response": [
+						{
+							"name": "Update Booking",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=",
+										"type": "text"
+									},
+									{
+										"key": "Content-Type",
+										"value": "application/json",
+										"type": "text"
+									},
+									{
+										"key": "Accept",
+										"value": "application/json",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"firstname\": \"Ruthe\",\r\n    \"lastname\": \"Walsh\",\r\n    \"totalprice\": 756,\r\n    \"depositpaid\": true,\r\n    \"bookingdates\": {\r\n        \"checkin\": \"2025-06-20\",\r\n        \"checkout\": \"2025-06-24\"\r\n    },\r\n    \"additionalneeds\": \"Breakfast\"\r\n}}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "/booking/:id",
+									"path": [
+										"booking",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "3313"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745523302&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=dVpKCNluFi2Ed6mJaYxRLTpe2rOckaY1Uy1QpxXONAQ%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745523302&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=dVpKCNluFi2Ed6mJaYxRLTpe2rOckaY1Uy1QpxXONAQ%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "170"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"aa-ilDGiFymA11fGEnl8flsM1yOsV4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 24 Apr 2025 19:35:02 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"firstname\": \"Ruthe\",\n    \"lastname\": \"Walsh\",\n    \"totalprice\": 756,\n    \"depositpaid\": true,\n    \"bookingdates\": {\n        \"checkin\": \"2025-06-20\",\n        \"checkout\": \"2025-06-24\"\n    },\n    \"additionalneeds\": \"Breakfast\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Booking After Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// ✅ Store response data in variables\r",
+									"let booking = pm.response.json();\r",
+									"\r",
+									"// 🧾 Extract each field for easier access\r",
+									"let firstName = booking.firstname;\r",
+									"let lastName = booking.lastname;\r",
+									"let totalPrice = booking.totalprice;\r",
+									"let depositPaid = booking.depositpaid;\r",
+									"let checkIn = booking.bookingdates.checkin;\r",
+									"let checkOut = booking.bookingdates.checkout;\r",
+									"let additionalNeeds = booking.additionalneeds;\r",
+									"\r",
+									"// ✅ Retrieve expected values from collection variables (using Update suffix)\r",
+									"let expectedFirstName = pm.collectionVariables.get(\"firstNameUpdate\");\r",
+									"let expectedLastName = pm.collectionVariables.get(\"lastNameUpdate\");\r",
+									"let expectedTotalPrice = parseInt(pm.collectionVariables.get(\"totalPriceUpdate\"));\r",
+									"let expectedDepositPaid = pm.collectionVariables.get(\"depositPaidUpdate\") === 'true'; // Convert string to boolean\r",
+									"let expectedCheckIn = pm.collectionVariables.get(\"checkInUpdate\");\r",
+									"let expectedCheckOut = pm.collectionVariables.get(\"checkOutUpdate\");\r",
+									"let expectedAdditionalNeeds = pm.collectionVariables.get(\"additionalNeedsUpdate\");\r",
+									"\r",
+									"// 🧪 Firstname Tests\r",
+									"pm.test(\"Firstname is not null\", () => pm.expect(firstName).to.not.be.null);\r",
+									"pm.test(\"Firstname is not undefined\", () => pm.expect(firstName).to.not.be.undefined);\r",
+									"pm.test(\"Firstname is of type string\", () => pm.expect(firstName).to.be.a('string'));\r",
+									"pm.test(\"Firstname matches generated value\", () => pm.expect(firstName).to.eql(expectedFirstName));\r",
+									"\r",
+									"// 🧪 Lastname Tests\r",
+									"pm.test(\"Lastname is not null\", () => pm.expect(lastName).to.not.be.null);\r",
+									"pm.test(\"Lastname is not undefined\", () => pm.expect(lastName).to.not.be.undefined);\r",
+									"pm.test(\"Lastname is of type string\", () => pm.expect(lastName).to.be.a('string'));\r",
+									"pm.test(\"Lastname matches generated value\", () => pm.expect(lastName).to.eql(expectedLastName));\r",
+									"\r",
+									"// 🧪 Total Price Tests\r",
+									"pm.test(\"Total price is not null\", () => pm.expect(totalPrice).to.not.be.null);\r",
+									"pm.test(\"Total price is not undefined\", () => pm.expect(totalPrice).to.not.be.undefined);\r",
+									"pm.test(\"Total price is of type number\", () => pm.expect(totalPrice).to.be.a('number'));\r",
+									"pm.test(\"Total price matches generated value\", () => pm.expect(totalPrice).to.eql(expectedTotalPrice));\r",
+									"\r",
+									"// 🧪 Deposit Paid Tests\r",
+									"pm.test(\"Deposit paid is not null\", () => pm.expect(depositPaid).to.not.be.null);\r",
+									"pm.test(\"Deposit paid is not undefined\", () => pm.expect(depositPaid).to.not.be.undefined);\r",
+									"pm.test(\"Deposit paid is of type boolean\", () => pm.expect(depositPaid).to.be.a('boolean'));\r",
+									"pm.test(\"Deposit paid matches generated value\", () => pm.expect(depositPaid).to.eql(expectedDepositPaid));\r",
+									"\r",
+									"// 🧪 Check-in Date Tests\r",
+									"pm.test(\"Check-in date is not null\", () => pm.expect(checkIn).to.not.be.null);\r",
+									"pm.test(\"Check-in date is not undefined\", () => pm.expect(checkIn).to.not.be.undefined);\r",
+									"pm.test(\"Check-in date is of type string\", () => pm.expect(checkIn).to.be.a('string'));\r",
+									"pm.test(\"Check-in date matches generated value\", () => pm.expect(checkIn).to.eql(expectedCheckIn));\r",
+									"\r",
+									"// 🧪 Check-out Date Tests\r",
+									"pm.test(\"Check-out date is not null\", () => pm.expect(checkOut).to.not.be.null);\r",
+									"pm.test(\"Check-out date is not undefined\", () => pm.expect(checkOut).to.not.be.undefined);\r",
+									"pm.test(\"Check-out date is of type string\", () => pm.expect(checkOut).to.be.a('string'));\r",
+									"pm.test(\"Check-out date matches generated value\", () => pm.expect(checkOut).to.eql(expectedCheckOut));\r",
+									"pm.test(\"Check-out date is after Check-in date\", () => {\r",
+									"    pm.expect(new Date(checkOut)).to.be.greaterThan(new Date(checkIn));\r",
+									"});\r",
+									"\r",
+									"// 🧪 Additional Needs Tests\r",
+									"pm.test(\"Additional needs is not null\", () => pm.expect(additionalNeeds).to.not.be.null);\r",
+									"pm.test(\"Additional needs is not undefined\", () => pm.expect(additionalNeeds).to.not.be.undefined);\r",
+									"pm.test(\"Additional needs is of type string\", () => pm.expect(additionalNeeds).to.be.a('string'));\r",
+									"pm.test(\"Additional needs matches generated value\", () => pm.expect(additionalNeeds).to.eql(expectedAdditionalNeeds));\r",
+									"\r",
+									"// 🧪 General Response Tests\r",
+									"pm.test(\"Status code is 200\", () => pm.response.to.have.status(200));\r",
+									"pm.test(\"Response time is less than 200ms\", () => pm.expect(pm.response.responseTime).to.be.below(200));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/booking/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"booking",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{booking_id}}"
+								}
+							]
+						},
+						"description": "**Description:**  \n  \nFetches the updated details of a booking after it has been modified. Use this to confirm that changes made with the `PUT` endpoint have been successfully saved.\n\n## Header\n\n| Field | Type | Description |\n| --- | --- | --- |\n| Accept | string | Sets what format the response body is returned in. Can be application/json or application/xml  <br>  <br>Default value: `application/json` |\n\n## Url Parameter\n\n| Field | Type | Description |\n| --- | --- | --- |\n| id | String | The id of the booking you would like to retrieve |\n\n## Success 200\n\n| Field | Type | Description |\n| --- | --- | --- |\n| firstname | String | Firstname for the guest who made the booking |\n| lastname | String | Lastname for the guest who made the booking |\n| totalprice | Number | The total price for the booking |\n| depositpaid | Boolean | Whether the deposit has been paid or not |\n| bookingdates | Object | Sub-object that contains the checkin and checkout dates |\n| checkin | Date | Date the guest is checking in |\n| checkout | Date | Date the guest is checking out |\n| additionalneeds | String | Any other needs the guest has |"
+					},
+					"response": [
+						{
+							"name": "Get Booking by Id",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/booking/:id",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"booking",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2940"
+										}
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745523263&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=BhjiN8QcvGfgPsiGCoJ%2FcGhTzYrZoJ1bP0jPSFtxdl8%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745523263&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=BhjiN8QcvGfgPsiGCoJ%2FcGhTzYrZoJ1bP0jPSFtxdl8%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "166"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"a6-b5OpbnCPC0l1nxVVb62RsFl2LT8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 24 Apr 2025 19:34:23 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"firstname\": \"Tamia\",\n    \"lastname\": \"Sipes\",\n    \"totalprice\": 947,\n    \"depositpaid\": true,\n    \"bookingdates\": {\n        \"checkin\": \"2025-04-25\",\n        \"checkout\": \"2025-05-02\"\n    },\n    \"additionalneeds\": \"Lunch\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// 🧪 General Response Tests\r",
+									"pm.test(\"Status code is 201\", () => pm.response.to.have.status(201));\r",
+									"pm.test(\"Response time is less than 200ms\", () => pm.expect(pm.response.responseTime).to.be.below(200));\r",
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token={{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{URL}}/booking/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"booking",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{booking_id}}"
+								}
+							]
+						},
+						"description": "**Description:**  \n  \nDeletes an existing booking by its ID. Requires authentication via token. This action is irreversible.\n\n## Header\n\n| Field | Type | Description |\n| --- | --- | --- |\n| Cookieoptional | string | Sets an authorization token to access the DELETE endpoint, can be used as an alternative to the Authorization  <br>  <br>Default value: `token=` |\n| Authorizationoptional | string | Basic authorization header to access the DELETE endpoint, can be used as an alternative to the Cookie header  <br>  <br>Default value: `{{vault:basic-auth}}` |\n\n## Url Parameter\n\n| Field | Type | Description |\n| --- | --- | --- |\n| id | Number | ID for the booking you want to update |\n\n## Success 200\n\n| Field | Type | Description |\n| --- | --- | --- |\n| OK | String | Default HTTP 201 response |"
+					},
+					"response": [
+						{
+							"name": "Delete Booking",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=2487e0e256c8eb4",
+										"type": "text"
+									}
+								],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/booking/:id",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"booking",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2940"
+										}
+									]
+								}
+							},
+							"status": "Created",
+							"code": 201,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745524546&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=6uQ1o2dZi0P4bgYYIDbngI8UU%2FGkx%2BPgF2KPvw4%2FNOw%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745524546&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=6uQ1o2dZi0P4bgYYIDbngI8UU%2FGkx%2BPgF2KPvw4%2FNOw%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "7"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"7-rM9AyJuqT6iOan/xHh+AW+7K/T8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 24 Apr 2025 19:55:46 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "Created"
+						}
+					]
+				},
+				{
+					"name": "Get Booking by Id after deletion",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"// General Tests\r",
+									"pm.test(\"Status code is 404\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"pm.test(\"Response time is less than 200ms\", () => pm.expect(pm.response.responseTime).to.be.below(200));"
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{URL}}/booking/:id",
+							"host": [
+								"{{URL}}"
+							],
+							"path": [
+								"booking",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "{{booking_id}}"
+								}
+							]
+						},
+						"description": "**Description:**  \n  \nAttempts to retrieve a booking after it has been deleted. If the deletion was successful, the API returns `404 Not Found`.\n\n## Header\n\n| Field | Type | Description |\n| --- | --- | --- |\n| Accept | string | Sets what format the response body is returned in. Can be application/json or application/xml  <br>  <br>Default value: `application/json` |\n\n## Url Parameter\n\n| Field | Type | Description |\n| --- | --- | --- |\n| id | String | The id of the booking you would like to retrieve |\n\n## 404 NOT FOUND\n\n```\nNot Found\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Get Booking by Id Copy 2",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "https://restful-booker.herokuapp.com/booking/:id",
+									"protocol": "https",
+									"host": [
+										"restful-booker",
+										"herokuapp",
+										"com"
+									],
+									"path": [
+										"booking",
+										":id"
+									],
+									"variable": [
+										{
+											"key": "id",
+											"value": "2940"
+										}
+									]
+								}
+							},
+							"status": "Not Found",
+							"code": 404,
+							"_postman_previewlanguage": "plain",
+							"header": [
+								{
+									"key": "Server",
+									"value": "Cowboy"
+								},
+								{
+									"key": "Report-To",
+									"value": "{\"group\":\"heroku-nel\",\"max_age\":3600,\"endpoints\":[{\"url\":\"https://nel.heroku.com/reports?ts=1745524555&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=zO64TPsPD6CS8B0KoOxPwvEfRc6GyKX6yQQyutJ23uo%3D\"}]}"
+								},
+								{
+									"key": "Reporting-Endpoints",
+									"value": "heroku-nel=https://nel.heroku.com/reports?ts=1745524555&sid=c46efe9b-d3d2-4a0c-8c76-bfafa16c5add&s=zO64TPsPD6CS8B0KoOxPwvEfRc6GyKX6yQQyutJ23uo%3D"
+								},
+								{
+									"key": "Nel",
+									"value": "{\"report_to\":\"heroku-nel\",\"max_age\":3600,\"success_fraction\":0.005,\"failure_fraction\":0.05,\"response_headers\":[\"Via\"]}"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Content-Type",
+									"value": "text/plain; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "9"
+								},
+								{
+									"key": "Etag",
+									"value": "W/\"9-0gXL1ngzMqISxa6S1zx3F4wtLyg\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 24 Apr 2025 19:55:55 GMT"
+								},
+								{
+									"key": "Via",
+									"value": "1.1 vegur"
+								}
+							],
+							"cookie": [],
+							"body": "Not Found"
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "URL",
+			"value": "https://restful-booker.herokuapp.com"
+		},
+		{
+			"key": "booking_id",
+			"value": 2940
+		},
+		{
+			"key": "x",
+			"value": "2"
+		},
+		{
+			"key": "token",
+			"value": "2487e0e256c8eb4"
+		},
+		{
+			"key": "generatedFirstName",
+			"value": "Jamaal"
+		},
+		{
+			"key": "firstName",
+			"value": "Tyrique"
+		},
+		{
+			"key": "lastName",
+			"value": "Dickens"
+		},
+		{
+			"key": "totalPrice",
+			"value": "538"
+		},
+		{
+			"key": "depositPaid",
+			"value": "true"
+		},
+		{
+			"key": "checkIn",
+			"value": "2025-06-02"
+		},
+		{
+			"key": "checkOut",
+			"value": "2025-06-04"
+		},
+		{
+			"key": "additionalNeeds",
+			"value": "Lunch"
+		},
+		{
+			"key": "firstNameUpdate",
+			"value": "Chance"
+		},
+		{
+			"key": "lastNameUpdate",
+			"value": "Volkman"
+		},
+		{
+			"key": "totalPriceUpdate",
+			"value": "920"
+		},
+		{
+			"key": "depositPaidUpdate",
+			"value": "true"
+		},
+		{
+			"key": "checkInUpdate",
+			"value": "2025-06-21"
+		},
+		{
+			"key": "checkOutUpdate",
+			"value": "2025-07-01"
+		},
+		{
+			"key": "additionalNeedsUpdate",
+			"value": "Breakfast"
+		},
+		{
+			"key": "userName",
+			"value": "admin"
+		},
+		{
+			"key": "password",
+			"value": "password123"
+		}
+	]
+}
